@@ -27,3 +27,8 @@ jobs:
             rsync --version | head -n 1
             echo "Checking public_html..."
             ls -la /home/g619pqm44qhs/public_html/
+            echo "Cleaning local cPanel Git change..."
+            cd /home/g619pqm44qhs/git/website-main
+            git reset --hard HEAD
+            echo "Checking Git status..."
+            git status --short
