@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/g619pqm44qhs/public_html/
+    - /usr/bin/rsync -a --exclude='.git/' --exclude='.cpanel.yml' --exclude='wp-config.php' --exclude='wp-content/uploads/' ./ $DEPLOYPATH

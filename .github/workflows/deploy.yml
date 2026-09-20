@@ -1,0 +1,48 @@
+name: Deploy WordPress to GoDaddy
+
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-deployment
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout master
+        uses: actions/checkout@v4
+
+      - name: Deploy to GoDaddy
+        env:
+          HOST: ${{ secrets.GO_DADDY_HOST }}
+          USER: ${{ secrets.GO_DADDY_USER }}
+          PORT: ${{ secrets.GO_DADDY_PORT }}
+          SSH_KEY: ${{ secrets.GO_DADDY_SSH_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+
+          ssh-keyscan -p "$PORT" "$HOST" >> ~/.ssh/known_hosts
+
+          rsync -az \
+            -e "ssh -i ~/.ssh/deploy_key -p $PORT" \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='.cpanel.yml' \
+            --exclude='wp-config.php' \
+            --exclude='wp-content/uploads/' \
+            ./ "$USER@$HOST:/home/$USER/public_html/"
+
+          rm -f ~/.ssh/deploy_key
+
+      - name: Deployment complete
+        run: echo "WordPress deployment to GoDaddy completed successfully."

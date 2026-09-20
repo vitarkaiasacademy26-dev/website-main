@@ -1,0 +1,29 @@
+name: Test GoDaddy SSH
+
+on:
+  push:
+    branches:
+      - development
+
+jobs:
+  test-ssh:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Test SSH connection
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ secrets.GO_DADDY_HOST }}
+          username: ${{ secrets.GO_DADDY_USER }}
+          key: ${{ secrets.GO_DADDY_SSH_KEY }}
+          port: ${{ secrets.GO_DADDY_PORT }}
+          script: |
+            echo "SSH connection successful"
+            echo "Server: $(hostname)"
+            echo "User: $(whoami)"
+            echo "Home: $HOME"
+            echo "Checking rsync..."
+            command -v rsync
+            rsync --version | head -n 1
+            echo "Checking public_html..."
+            ls -la /home/g619pqm44qhs/public_html/
