@@ -1,7 +1,9 @@
 name: Test GoDaddy SSH
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - development
 
 jobs:
   test-ssh:
