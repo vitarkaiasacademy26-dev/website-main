@@ -23,4 +23,7 @@ jobs:
             echo "User: $(whoami)"
             echo "Home: $HOME"
             echo "Checking rsync..."
-            command -v rsync || true
+            command -v rsync
+            rsync --version | head -n 1
+            echo "Checking public_html..."
+            ls -la /home/g619pqm44qhs/public_html/
