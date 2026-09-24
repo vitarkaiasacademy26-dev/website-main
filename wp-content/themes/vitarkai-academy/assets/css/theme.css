@@ -1,0 +1,31 @@
+.site-main .container {
+    max-width: 1120px;
+}
+
+.entry-content > *:first-child,
+.page-content > *:first-child {
+    margin-top: 0;
+}
+
+.entry-content > *:last-child,
+.page-content > *:last-child {
+    margin-bottom: 0;
+}
+
+.wp-block-image,
+.wp-caption {
+    max-width: 100%;
+}
+
+.page-title,
+.archive-title {
+    font-size: clamp(2rem, 3vw, 2.8rem);
+}
+
+.entry h2 {
+    font-size: clamp(1.5rem, 2vw, 2rem);
+}
+
+.error-404 {
+    text-align: center;
+}
